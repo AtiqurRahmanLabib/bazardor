@@ -11,15 +11,32 @@ import {
   TextField,
 } from "@heroui/react";
 import Link from "next/link";
+import { authClient } from "../lib/auth-client";
 
 function SignupForm() {
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
-    const data = Object.fromEntries(formData.entries());
+    const userData = Object.fromEntries(formData.entries()) as {
+      name: string;
+      email: string;
+      password: string;
+    };
+
+    const { data, error } = await authClient.signUp.email({
+      ...userData,
+    });
 
     console.log(data);
+    console.log(error);
+  };
+
+  const handleGoogleLogin = async () => {
+    const data = await authClient.signIn.social({
+      provider: "google",
+    });
+    console.log(data)
   };
 
   return (
@@ -117,11 +134,11 @@ function SignupForm() {
               name="confirmPassword"
               type="password"
               isRequired
-            //   validate={(value, form) =>
-            //     value === form.get("password")
-            //       ? null
-            //       : "পাসওয়ার্ড দুটি মিলছে না"
-            //   }
+              //   validate={(value, form) =>
+              //     value === form.get("password")
+              //       ? null
+              //       : "পাসওয়ার্ড দুটি মিলছে না"
+              //   }
               className="flex w-full flex-col gap-2"
             >
               <Label className="text-[21px] font-medium text-[#1D271F]">
@@ -154,6 +171,7 @@ function SignupForm() {
 
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <button
+              onClick={() => handleGoogleLogin()}
               type="button"
               className="flex h-10 items-center justify-center gap-2 rounded-lg border border-[#E1E8E1] text-[15px] font-semibold text-[#1D271F] hover:bg-[#F0F5F0]"
             >
