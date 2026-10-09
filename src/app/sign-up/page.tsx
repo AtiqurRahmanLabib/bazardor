@@ -36,7 +36,14 @@ function SignupForm() {
     const data = await authClient.signIn.social({
       provider: "google",
     });
-    console.log(data)
+    console.log(data);
+  };
+
+  const handleGithubLogin = async () => {
+    const data = await authClient.signIn.social({
+      provider: "github",
+    });
+    console.log(data);
   };
 
   return (
@@ -181,6 +188,7 @@ function SignupForm() {
 
             <button
               type="button"
+              onClick={() => handleGithubLogin()}
               className="flex h-10 items-center justify-center gap-2 rounded-lg border border-[#E1E8E1] text-[15px] font-semibold text-[#1D271F] hover:bg-[#F0F5F0]"
             >
               <span>◉</span>

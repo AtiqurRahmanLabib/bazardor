@@ -9,6 +9,7 @@ import {
   TextField,
 } from "@heroui/react";
 import Link from "next/link";
+import { authClient } from "../lib/auth-client";
 
 export default function LoginPage() {
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -17,6 +18,20 @@ export default function LoginPage() {
     const formData = new FormData(e.currentTarget);
     const data = Object.fromEntries(formData.entries());
 
+    console.log(data);
+  };
+
+  const handleGoogleLogin = async () => {
+    const data = await authClient.signIn.social({
+      provider: "google",
+    });
+    console.log(data);
+  };
+
+  const handleGithubLogin = async () => {
+    const data = await authClient.signIn.social({
+      provider: "github",
+    });
     console.log(data);
   };
 
@@ -108,6 +123,7 @@ export default function LoginPage() {
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <button
               type="button"
+              onClick={() => handleGoogleLogin()}
               className="flex h-10 items-center justify-center gap-2 rounded-lg border border-[#E1E8E1] text-[15px] font-semibold text-[#1D271F] hover:bg-[#F0F5F0]"
             >
               <span className="font-bold text-[#4285F4]">G</span>
@@ -116,6 +132,7 @@ export default function LoginPage() {
 
             <button
               type="button"
+              onClick={() => handleGithubLogin()}
               className="flex h-10 items-center justify-center gap-2 rounded-lg border border-[#E1E8E1] text-[15px] font-semibold text-[#1D271F] hover:bg-[#F0F5F0]"
             >
               <span>◉</span>
