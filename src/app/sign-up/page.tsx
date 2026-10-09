@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import {
   Button,
   Description,
@@ -11,7 +12,7 @@ import {
 } from "@heroui/react";
 import Link from "next/link";
 
-export default function SignupPage() {
+function SignupForm() {
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -23,29 +24,32 @@ export default function SignupPage() {
 
   return (
     <main className="flex min-h-screen flex-col bg-[#EFF4EF] text-[#1D271F]">
-      {" "}
-      <section className="flex flex-1 flex-col items-center px-4 pb-12 pt-7 mt-10">
-        {" "}
+      <section className="mt-10 flex flex-1 flex-col items-center px-4 pb-12 pt-7">
         <h1 className="text-center text-[32px] font-bold leading-tight">
-          অ্যাকাউন্ট তৈরি করুন{" "}
+          অ্যাকাউন্ট তৈরি করুন
         </h1>
+
         <p className="mt-2 text-center text-sm text-[#1D271F]/70">
           বিনা খরচে সাইন আপ করে সব বিস্তারিত দাম দেখুন।
         </p>
-        <div className="mt-5 box-border h-[638px] w-full max-w-[516px] rounded-xl border border-[#DFE8DF] bg-[#FAFCFA] p-6 sm:p-8">
+
+        <div className="mt-5 box-border min-h-[638px] w-full max-w-[516px] rounded-xl border border-[#DFE8DF] bg-[#FAFCFA] p-6 sm:p-8">
           <Form className="flex w-full flex-col gap-4" onSubmit={onSubmit}>
             <TextField
               name="name"
-            
-            isRequired
+              isRequired
               className="flex w-full flex-col gap-2"
             >
-              <Label className="text-[21px] font-medium text-[#1D271F]">নাম</Label>
+              <Label className="text-[21px] font-medium text-[#1D271F]">
+                নাম
+              </Label>
+
               <Input
                 name="name"
                 placeholder="যেমন: রহিম উদ্দিন"
                 className="h-10 w-full rounded-lg border border-[#E1E9E1] bg-white px-3 text-sm outline-none focus:border-[#118344]"
               />
+
               <FieldError className="text-xs text-red-600" />
             </TextField>
 
@@ -55,13 +59,17 @@ export default function SignupPage() {
               isRequired
               className="flex w-full flex-col gap-2"
             >
-              <Label className="text-[21px] font-medium text-[#1D271F]">ইমেইল</Label>
+              <Label className="text-[21px] font-medium text-[#1D271F]">
+                ইমেইল
+              </Label>
+
               <Input
                 name="email"
                 type="email"
                 placeholder="you@example.com"
                 className="h-10 w-full rounded-lg border border-[#E1E9E1] bg-white px-3 text-sm outline-none focus:border-[#118344]"
               />
+
               <FieldError className="text-xs text-red-600" />
             </TextField>
 
@@ -71,23 +79,37 @@ export default function SignupPage() {
               isRequired
               minLength={8}
               validate={(value) => {
-                if (value.length < 8) return "কমপক্ষে ৮ অক্ষর দিন";
-                if (!/[A-Z]/.test(value)) return "একটি বড় হাতের অক্ষর দিন";
-                if (!/[0-9]/.test(value)) return "একটি সংখ্যা দিন";
+                if (value.length < 8) {
+                  return "কমপক্ষে ৮ অক্ষর দিন";
+                }
+
+                if (!/[A-Z]/.test(value)) {
+                  return "একটি বড় হাতের অক্ষর দিন";
+                }
+
+                if (!/[0-9]/.test(value)) {
+                  return "একটি সংখ্যা দিন";
+                }
+
                 return null;
               }}
               className="flex w-full flex-col gap-2"
             >
-              <Label className="text-[21px] font-medium text-[#1D271F]">পাসওয়ার্ড</Label>
+              <Label className="text-[21px] font-medium text-[#1D271F]">
+                পাসওয়ার্ড
+              </Label>
+
               <Input
                 name="password"
                 type="password"
                 placeholder="কমপক্ষে ৮ অক্ষর"
                 className="h-10 w-full rounded-lg border border-[#E1E9E1] bg-white px-3 text-sm outline-none focus:border-[#118344]"
               />
+
               <Description className="text-xs text-[#758077]">
                 কমপক্ষে ৮ অক্ষর, ১টি বড় হাতের অক্ষর ও ১টি সংখ্যা।
               </Description>
+
               <FieldError className="text-xs text-red-600" />
             </TextField>
 
@@ -105,12 +127,14 @@ export default function SignupPage() {
               <Label className="text-[21px] font-medium text-[#1D271F]">
                 পাসওয়ার্ড নিশ্চিত করুন
               </Label>
+
               <Input
                 name="confirmPassword"
                 type="password"
                 placeholder="আবার লিখুন"
                 className="h-10 w-full rounded-lg border border-[#E1E9E1] bg-white px-3 text-sm outline-none focus:border-[#118344]"
               />
+
               <FieldError className="text-xs text-red-600" />
             </TextField>
 
@@ -124,14 +148,14 @@ export default function SignupPage() {
 
           <div className="my-5 flex items-center gap-3 text-xs text-[#788078]">
             <div className="h-px flex-1 bg-[#DDE5DD]" />
-            অথবা
+            <span>অথবা</span>
             <div className="h-px flex-1 bg-[#DDE5DD]" />
           </div>
 
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <button
               type="button"
-              className="flex h-10 items-center justify-center text-[#1D271F] gap-2 rounded-lg border border-[#E1E8E1] text-[15px] font-semibold hover:bg-[#F0F5F0]"
+              className="flex h-10 items-center justify-center gap-2 rounded-lg border border-[#E1E8E1] text-[15px] font-semibold text-[#1D271F] hover:bg-[#F0F5F0]"
             >
               <span className="font-bold text-[#4285F4]">G</span>
               Google দিয়ে চালিয়ে যান
@@ -139,7 +163,7 @@ export default function SignupPage() {
 
             <button
               type="button"
-              className="flex h-10 items-center justify-center text-[#1D271F] gap-2 rounded-lg border border-[#E1E8E1] text-[15px] font-semibold hover:bg-[#F0F5F0]"
+              className="flex h-10 items-center justify-center gap-2 rounded-lg border border-[#E1E8E1] text-[15px] font-semibold text-[#1D271F] hover:bg-[#F0F5F0]"
             >
               <span>◉</span>
               GitHub দিয়ে চালিয়ে যান
@@ -149,13 +173,14 @@ export default function SignupPage() {
           <p className="mt-5 text-center text-xs text-[#687269]">
             অ্যাকাউন্ট আছে?{" "}
             <Link
-              href="/login"
+              href="/sign-in"
               className="font-semibold text-[#108541] hover:underline"
             >
               সাইন ইন করুন
             </Link>
           </p>
         </div>
+
         <Link
           href="/"
           className="mt-5 text-xs text-[#778078] hover:text-[#108541]"
@@ -164,5 +189,13 @@ export default function SignupPage() {
         </Link>
       </section>
     </main>
+  );
+}
+
+export default function SignupPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-[#EFF4EF]" />}>
+      <SignupForm />
+    </Suspense>
   );
 }
