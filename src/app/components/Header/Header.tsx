@@ -26,9 +26,12 @@ const Header = () => {
 
       {/* Sign In & Sign Up */}
       <div className="flex gap-5">
+        <Link href='/sign-in'>
+        
         <button className="w-[92.4px] h-10 text-[#1D271F] rounded-lg text-[14px] font-semibold">
           সাইন ইন
         </button>
+        </Link>
 
         <Link href='/sign-up'>
         <button className="w-[92.4px] h-10 text-white bg-[#05893E] rounded-lg text-[14px] font-semibold">
