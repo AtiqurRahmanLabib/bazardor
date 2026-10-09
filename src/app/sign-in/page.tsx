@@ -12,13 +12,20 @@ import Link from "next/link";
 import { authClient } from "../lib/auth-client";
 
 export default function LoginPage() {
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
-    const data = Object.fromEntries(formData.entries());
+    const userData = Object.fromEntries(formData.entries()) as {email: string, password: string}
 
-    console.log(data);
+    const { data, error } = await authClient.signIn.email({
+        ...userData
+    })
+
+    console.log(userData);
+    console.log(data)
+    console.log(error)
+
   };
 
   const handleGoogleLogin = async () => {
@@ -143,7 +150,7 @@ export default function LoginPage() {
           <p className="mt-5 text-center text-xs text-[#687269]">
             অ্যাকাউন্ট নেই?{" "}
             <Link
-              href="/signup"
+              href="/sign-up"
               className="font-semibold text-[#108541] hover:underline"
             >
               সাইন আপ করুন
