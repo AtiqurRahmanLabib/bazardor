@@ -4,7 +4,6 @@ const nextConfig: NextConfig = {
   images: {
     qualities: [50, 75],
   },
-  /* config options here */
   experimental: {
     agentFeedback: true,
   },
