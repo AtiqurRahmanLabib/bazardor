@@ -15,6 +15,13 @@ interface Product {
   };
 }
 
+// English number → Bangla number
+const toBanglaNumber = (value: number | string) => {
+  const banglaDigits = "০১২৩৪৫৬৭৮৯";
+
+  return String(value).replace(/\d/g, (digit) => banglaDigits[Number(digit)]);
+};
+
 export default function ProductMarquee() {
   const [products, setProducts] = useState<Product[]>([]);
 
@@ -25,7 +32,9 @@ export default function ProductMarquee() {
           "https://api.abcz.workers.dev/api/bazardor/products",
         );
 
-        if (!res.ok) throw new Error("Failed to fetch products");
+        if (!res.ok) {
+          throw new Error("Failed to fetch products");
+        }
 
         const data: Product[] = await res.json();
         setProducts(data);
@@ -40,21 +49,30 @@ export default function ProductMarquee() {
   if (!products.length) return null;
 
   return (
-    <div className="border-y border-gray-200 bg-white py-2">
-      {" "}
-      <Marquee speed={9050} pauseOnHover>
+    <div className="border-y border-gray-200 bg-white py-2 overflow-hidden">
+      <Marquee speed={150} pauseOnHover>
         {products.map((product) => (
           <div
             key={product.id}
             className="flex shrink-0 items-center gap-2 border-r border-gray-200 px-5 text-xs"
           >
-            {" "}
-            <span>{product.categoryIcon}</span>
+            {/* Icon */}
+            <span className="text-sm">{product.categoryIcon}</span>
+
+            {/* Product Name */}
             <span className="font-medium text-gray-700">{product.nameBn}</span>
+
+            {/* Price */}
             <span className="font-semibold text-gray-900">
-              ৳ {product.today} টাকা/
-              {product.unit === "kg" ? "কেজি" : product.unit}
+              ৳ {toBanglaNumber(product.today)} টাকা/
+              {product.unit === "kg"
+                ? "কেজি"
+                : product.unit === "liter"
+                  ? "লিটার"
+                  : product.unit}
             </span>
+
+            {/* Price Change */}
             <span
               className={
                 product.change.dir === "up"
@@ -63,7 +81,7 @@ export default function ProductMarquee() {
               }
             >
               {product.change.dir === "up" ? "▲" : "▼"}{" "}
-              {Math.abs(product.change.pct).toFixed(1)}%
+              {toBanglaNumber(Math.abs(product.change.pct).toFixed(1))}%
             </span>
           </div>
         ))}
