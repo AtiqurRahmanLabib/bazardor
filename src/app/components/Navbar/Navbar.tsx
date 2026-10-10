@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 const Navbar = async () => {
   const res = await fetch(
     "https://api.abcz.workers.dev/api/bazardor/categories",
@@ -26,9 +28,9 @@ const Navbar = async () => {
               nameBn: string;
               icon: string;
             }) => (
-              <button
-                key={category.id}
-                className="
+             <Link href={`/Category/${category.slug}`} key={category.id}>
+                <button
+                  className="
                   flex items-center gap-1.5
                   px-3 sm:px-4
                   py-2
@@ -47,13 +49,12 @@ const Navbar = async () => {
                   duration-200
                   cursor-pointer
                 "
-              >
-                <span className="text-sm sm:text-base">
-                  {category.icon}
-                </span>
+                >
+                  <span className="text-sm sm:text-base">{category.icon}</span>
 
-                <span>{category.nameBn}</span>
-              </button>
+                  <span>{category.nameBn}</span>
+                </button>
+              </Link>
             ),
           )}
         </div>
