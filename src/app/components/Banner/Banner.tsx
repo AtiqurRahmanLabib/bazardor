@@ -1,6 +1,7 @@
 import Image from "next/image";
 import CurrentDate from "../Time/Time";
 import BannerLogo from "../../../../public/bazar-hero.png";
+import Link from "next/link";
 
 const Banner = () => {
   return (
@@ -74,6 +75,7 @@ const Banner = () => {
           </p>
 
           {/* Button */}
+          <Link href='/all-products'>
           <button
             className="
               mt-5
@@ -96,6 +98,7 @@ const Banner = () => {
           >
             সব পণ্য দেখুন
           </button>
+          </Link>
         </div>
 
         {/* Right Image */}
