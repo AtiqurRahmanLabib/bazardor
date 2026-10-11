@@ -15,7 +15,6 @@ interface Product {
   };
 }
 
-// English number → Bangla number
 const toBanglaNumber = (value: number | string) => {
   const banglaDigits = "০১২৩৪৫৬৭৮৯";
 
@@ -39,7 +38,6 @@ export default function ProductMarquee() {
         const data: Product[] = await res.json();
         setProducts(data);
       } catch (error) {
-        console.error("Product fetch error:", error);
       }
     }
 
@@ -56,13 +54,10 @@ export default function ProductMarquee() {
             key={product.id}
             className="flex shrink-0 items-center gap-2 border-r border-gray-200 px-5 text-xs"
           >
-            {/* Icon */}
             <span className="text-sm">{product.categoryIcon}</span>
 
-            {/* Product Name */}
             <span className="font-medium text-gray-700">{product.nameBn}</span>
 
-            {/* Price */}
             <span className="font-semibold text-gray-900">
               ৳ {toBanglaNumber(product.today)} টাকা/
               {product.unit === "kg"
@@ -72,7 +67,6 @@ export default function ProductMarquee() {
                   : product.unit}
             </span>
 
-            {/* Price Change */}
             <span
               className={
                 product.change.dir === "up"

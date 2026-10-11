@@ -19,16 +19,15 @@ const Header = () => {
     setIsOpen(false);
   };
 
-  // Click outside dropdown close
   useEffect(() => {
-  const handleClickOutside = (event: MouseEvent) => {
-  if (
-    dropdownRef.current &&
-    !dropdownRef.current.contains(event.target as Node)
-  ) {
-    setIsOpen(false);
-  }
-};
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    };
 
     document.addEventListener("mousedown", handleClickOutside);
 
@@ -40,10 +39,8 @@ const Header = () => {
   return (
     <header className="w-full border-b border-gray-100 bg-white">
       <div className="w-full max-w-6xl mx-auto h-auto min-h-17 px-4 sm:px-6 lg:px-0 py-3 flex items-center justify-between gap-3">
-        {/* Logo + Name + Date */}
         <Link href="/" className="shrink-0">
           <div className="flex items-center gap-2 sm:gap-3 md:gap-5">
-            {/* Logo */}
             <div className="w-9 h-9 sm:w-10 sm:h-10 bg-[#05893E] rounded-xl sm:rounded-2xl overflow-hidden shrink-0">
               <Image
                 className="w-full h-full object-cover"
@@ -54,7 +51,6 @@ const Header = () => {
               />
             </div>
 
-            {/* Name & Date */}
             <div className="min-w-0">
               <p className="text-[#1D271F] font-bold text-[16px] sm:text-[18px] md:text-[20px] leading-tight">
                 বাজার দর
@@ -67,25 +63,20 @@ const Header = () => {
           </div>
         </Link>
 
-        {/* User Section */}
         {user ? (
           <div className="relative shrink-0" ref={dropdownRef}>
-            {/* User Button */}
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="flex items-center gap-1.5 sm:gap-2 cursor-pointer rounded-lg px-1.5 sm:px-2 py-1.5 transition-all duration-200 hover:bg-gray-50 active:scale-95"
             >
-              {/* Avatar */}
               <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[#05893E] text-white flex items-center justify-center font-semibold text-xs sm:text-sm shrink-0">
                 {user.name?.charAt(0).toUpperCase()}
               </div>
 
-              {/* Name */}
               <span className="hidden sm:block text-[13px] md:text-[15px] text-[#303530] max-w-[120px] truncate">
                 {user.name}
               </span>
 
-              {/* Arrow */}
               <span
                 className={`text-gray-500 text-[9px] sm:text-xs transition-transform duration-200 ${
                   isOpen ? "rotate-180" : ""
@@ -95,10 +86,8 @@ const Header = () => {
               </span>
             </button>
 
-            {/* Dropdown */}
             {isOpen && (
               <div className="absolute right-0 top-12 sm:top-13 w-[230px] sm:w-[255px] bg-white border border-gray-200 rounded-2xl shadow-lg z-50 overflow-hidden">
-                {/* User Info */}
                 <div className="px-4 sm:px-5 pt-4 sm:pt-5 pb-3 sm:pb-4">
                   <p className="font-semibold text-[#8b918d] text-[14px] sm:text-[15px] truncate">
                     {user.name}
@@ -111,7 +100,6 @@ const Header = () => {
 
                 <div className="border-t border-gray-100"></div>
 
-                {/* Profile */}
                 <Link
                   href="/profile"
                   onClick={() => setIsOpen(false)}
@@ -121,7 +109,6 @@ const Header = () => {
                   <span>আমার প্রোফাইল</span>
                 </Link>
 
-                {/* Sign Out */}
                 <button
                   onClick={handleSignOut}
                   className="w-full flex items-center gap-2 px-4 sm:px-5 py-3 text-[14px] sm:text-[15px] text-[#e55353] hover:bg-red-50 transition-colors duration-200"
@@ -133,9 +120,7 @@ const Header = () => {
             )}
           </div>
         ) : (
-          /* Sign In & Sign Up */
           <div className="flex items-center gap-1.5 sm:gap-2 md:gap-5 shrink-0">
-            {/* Sign In */}
             <Link href="/sign-in">
               <button
                 className="
@@ -158,7 +143,6 @@ const Header = () => {
               </button>
             </Link>
 
-            {/* Sign Up */}
             <Link href="/sign-up">
               <button
                 className="

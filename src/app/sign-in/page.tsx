@@ -1,3 +1,4 @@
+
 "use client";
 
 import {
@@ -9,52 +10,82 @@ import {
   TextField,
 } from "@heroui/react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 import { authClient } from "../lib/auth-client";
 
 export default function LoginPage() {
+  const router = useRouter();
+
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
-    const userData = Object.fromEntries(formData.entries()) as {email: string, password: string}
 
-    const { data, error } = await authClient.signIn.email({
-        ...userData
-    })
+    const userData = {
+      email: String(formData.get("email") ?? ""),
+      password: String(formData.get("password") ?? ""),
+    };
 
-    console.log(userData);
-    console.log(data)
-    console.log(error)
+    const toastId = toast.loading("সাইন ইন হচ্ছে...");
 
+    try {
+      const { error } = await authClient.signIn.email(userData);
+
+      if (error) {
+        toast.error(error.message || "সাইন ইন করা যায়নি", {
+          id: toastId,
+        });
+        return;
+      }
+
+      toast.success("সফলভাবে সাইন ইন হয়েছে!", {
+        id: toastId,
+      });
+
+      router.replace("/");
+      router.refresh();
+    } catch {
+      toast.error("সাইন ইন করতে সমস্যা হয়েছে। আবার চেষ্টা করুন।", {
+        id: toastId,
+      });
+    }
   };
 
-  const handleGoogleLogin = async () => {
-    const data = await authClient.signIn.social({
-      provider: "google",
-    });
-    console.log(data);
-  };
+  const handleSocialLogin = async (
+    provider: "google" | "github",
+  ) => {
+    try {
+      const { error } = await authClient.signIn.social({
+        provider,
+        callbackURL: "/",
+        errorCallbackURL: "/sign-in",
+      });
 
-  const handleGithubLogin = async () => {
-    const data = await authClient.signIn.social({
-      provider: "github",
-    });
-    console.log(data);
+      if (error) {
+        toast.error(error.message || "সোশ্যাল লগইন করা যায়নি");
+      }
+    } catch {
+      toast.error("লগইন করতে সমস্যা হয়েছে। আবার চেষ্টা করুন।");
+    }
   };
 
   return (
     <main className="flex min-h-screen flex-col bg-[#EFF4EF] text-[#1D271F]">
-      {" "}
       <section className="mt-10 flex flex-1 flex-col items-center px-4 pb-12 pt-7">
-        {" "}
         <h1 className="text-center text-[32px] font-bold leading-tight">
-          সাইন ইন{" "}
+          সাইন ইন
         </h1>
+
         <p className="mt-2 text-center text-sm text-[#1D271F]/70">
           বিস্তারিত দাম, বাজার তুলনা ও প্রোফাইল দেখতে অ্যাকাউন্টে ঢুকুন।
         </p>
-        <div className="mt-5 box-border h-[458px] w-full max-w-[516px] rounded-xl border border-[#DFE8DF] bg-[#FAFCFA] p-6 sm:p-8">
-          <Form className="flex w-full flex-col gap-4" onSubmit={onSubmit}>
+
+        <div className="mt-5 box-border min-h-[458px] w-full max-w-[516px] rounded-xl border border-[#DFE8DF] bg-[#FAFCFA] p-6 sm:p-8">
+          <Form
+            className="flex w-full flex-col gap-4"
+            onSubmit={onSubmit}
+          >
             <TextField
               name="email"
               type="email"
@@ -130,7 +161,7 @@ export default function LoginPage() {
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <button
               type="button"
-              onClick={() => handleGoogleLogin()}
+              onClick={() => handleSocialLogin("google")}
               className="flex h-10 items-center justify-center gap-2 rounded-lg border border-[#E1E8E1] text-[15px] font-semibold text-[#1D271F] hover:bg-[#F0F5F0]"
             >
               <span className="font-bold text-[#4285F4]">G</span>
@@ -139,7 +170,7 @@ export default function LoginPage() {
 
             <button
               type="button"
-              onClick={() => handleGithubLogin()}
+              onClick={() => handleSocialLogin("github")}
               className="flex h-10 items-center justify-center gap-2 rounded-lg border border-[#E1E8E1] text-[15px] font-semibold text-[#1D271F] hover:bg-[#F0F5F0]"
             >
               <span>◉</span>
@@ -157,6 +188,7 @@ export default function LoginPage() {
             </Link>
           </p>
         </div>
+
         <Link
           href="/"
           className="mt-5 text-xs text-[#778078] hover:text-[#108541]"

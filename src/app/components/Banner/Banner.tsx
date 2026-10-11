@@ -22,9 +22,7 @@ const Banner = () => {
           overflow-hidden
         "
       >
-        {/* Left Content */}
         <div className="w-full lg:w-[58%]">
-          {/* Date */}
           <p
             className="
               text-[#05893E]
@@ -42,7 +40,6 @@ const Banner = () => {
             <CurrentDate />
           </p>
 
-          {/* Heading */}
           <h1
             className="
               text-[#1D271F]
@@ -58,7 +55,6 @@ const Banner = () => {
             আজকের বাজারের দাম এক নজরে
           </h1>
 
-          {/* Description */}
           <p
             className="
               text-[#1D271F]/70
@@ -74,7 +70,6 @@ const Banner = () => {
             বিস্তারিত, গড়, সর্বনিম্ন-সর্বাধিক এবং দামের পরিবর্তন এক জায়গায়।
           </p>
 
-          {/* Button */}
           <Link href='/all-products'>
           <button
             className="
@@ -101,7 +96,6 @@ const Banner = () => {
           </Link>
         </div>
 
-        {/* Right Image */}
         <div
           className="
             w-full

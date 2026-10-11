@@ -5,7 +5,6 @@ import { authClient } from "../lib/auth-client";
 const page = () => {
   const { data: session } = authClient.useSession();
   const user = session?.user;
-  console.log(user?.name);
 
   const handleSignOut = async () => {
     await authClient.signOut();
