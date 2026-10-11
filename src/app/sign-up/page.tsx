@@ -26,20 +26,25 @@ function SignupForm() {
 
     await authClient.signUp.email({
       ...userData,
+       callbackURL: "/",
     });
   };
 
   const handleGoogleLogin = async () => {
     await authClient.signIn.social({
       provider: "google",
+       callbackURL: "/",
     });
   };
 
   const handleGithubLogin = async () => {
     await authClient.signIn.social({
       provider: "github",
+       callbackURL: "/",
     });
   };
+
+  
 
   return (
     <main className="flex min-h-screen flex-col bg-[#EFF4EF] text-[#1D271F]">
